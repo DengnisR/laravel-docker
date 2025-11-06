@@ -20,14 +20,18 @@ RUN apt-get update && apt-get install -y \
 # Limpiar cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install Composer using another strategy but with the same result
+# Install Node.js 20.x
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+RUN apt-get install -y nodejs
+
+# Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Set the environment variables
 ENV HOME="/root"
 ENV PATH="/root/.composer/vendor/bin:${PATH}:/root/.bun/bin"
 
-# Install Bun
+# Install Bun (opcional)
 RUN curl -fsSL https://bun.sh/install | bash
 
 # Create some symlinks to the bun executable
@@ -42,7 +46,15 @@ RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install gd
 
+# Set working directory
+WORKDIR /var/www/html
 
-CMD 'php-fpm'
+# Verificar instalaciones
+RUN node --version
+RUN npm --version
+RUN composer --version
+
+# Cambiar el CMD para usar un script de inicio
+CMD ["sh", "-c", "composer install --optimize-autoloader && npm install && composer run dev"]
 
 EXPOSE 8000

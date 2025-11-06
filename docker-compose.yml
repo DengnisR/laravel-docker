@@ -1,14 +1,15 @@
 services:
   app:
     build:
-      context: ./docker/php
+      context: ./
+      dockerfile: ./docker/php/Dockerfile
     container_name: laravel-app
     volumes:
       - ./src:/var/www/html
     ports:
       - "8000:8000"
       - "5173:5173"
-    command: 'composer run dev'
+    working_dir: /var/www/html
     networks:
       - laravel
 
