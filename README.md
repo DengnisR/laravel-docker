@@ -15,7 +15,7 @@ Este documento proporciona instrucciones para desplegar una aplicación Laravel 
 2. **🐳 Construir la imagen de Docker:**
 
    ```bash
-   docker-compose up -d --build
+   docker-compose --env-file ./src/.env up -d --build
    ```
 
 ### 🚀 Hacer Deploy
@@ -45,6 +45,18 @@ Para migrar la base de datos, ejecuta el siguiente comando:
 
 ```bash
 docker exec -it laravel-app php artisan migrate
+```
+
+### Iniciar servidor dev
+
+```bash
+docker exec -it laravel-app npm run dev
+```
+
+### Iniciar servidor prod
+
+```bash
+docker exec -it laravel-app npm run build
 ```
 
 ### 🗺️ Mapa de Distribución del Proyecto
@@ -126,6 +138,18 @@ To migrate the database, run the following command:
 
 ```bash
 docker exec -it laravel-app php artisan migrate
+```
+
+### Start dev server
+
+```bash
+docker exec -it laravel-app npm run dev
+```
+
+### Start production server
+
+```bash
+docker exec -it laravel-app npm run build
 ```
 
 ### 🗺️ Project Directory Map
